@@ -8,41 +8,46 @@ import Weather from './Weather.jsx'
 import Counter from './Counter.jsx'
 import Spinner from './components/Spinner/Spinner.jsx'
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: (
+        <Suspense fallback={<Spinner />}>
+          <Navbar />
+          <Outlet />
+        </Suspense>
+      ),
+      errorElement: (
+        <>
+          <Navbar />
+          <ErrorPage />
+        </>
+      ),
+      children: [
+        {
+          path: '/',
+          element: <App />,
+        },
+        {
+          path: '/counter',
+          element: <Counter />,
+        },
+        {
+          path: '/weather',
+          element: <Weather />,
+        },
+        // {
+        //   path: 'lol/:lolId',
+        //   element: <UrlTest />,
+        // },
+      ],
+    },
+  ],
   {
-    path: '/',
-    element: (
-      <Suspense fallback={<Spinner />}>
-        <Navbar />
-        <Outlet />
-      </Suspense>
-    ),
-    errorElement: (
-      <>
-        <Navbar />
-        <ErrorPage />
-      </>
-    ),
-    children: [
-      {
-        path: '/',
-        element: <App />,
-      },
-      {
-        path: '/counter',
-        element: <Counter />,
-      },
-      {
-        path: '/weather',
-        element: <Weather />,
-      },
-      // {
-      //   path: 'lol/:lolId',
-      //   element: <UrlTest />,
-      // },
-    ],
-  },
-])
+    basename: '/Vite',
+  }
+)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
